@@ -17,54 +17,99 @@ function divide(a, b) {
 function operate(op, a, b) {
     switch (op) {
         case '+':
-            add(a, b);
+            return add(a, b);
         case '-':
-            subtract(a, b);
+            return subtract(a, b);
         case '*':
-            multiply(a, b);
+            return multiply(a, b);
         case '/':
-            divide(a, b);
+            return divide(a, b);
+        default:
+            return b;
     }
 }
 
 function addUserInput(str) {
     switch (str) {
         case '1':
-            addDisplay(1);
+            addDisplay('1');
             break;
         case '2':
-            addDisplay(2);
+            addDisplay('2');
             break;
         case '3':
-            addDisplay(3);
+            addDisplay('3');
             break;
         case '4':
-            addDisplay(4);
+            addDisplay('4');
             break;
         case '5':
-            addDisplay(5);
+            addDisplay('5');
             break;
         case '6':
-            addDisplay(6);
+            addDisplay('6');
             break;
         case '7':
-            addDisplay(7);
+            addDisplay('7');
             break;
         case '8':
-            addDisplay(8);
+            addDisplay('8');
             break;
         case '9':
-            addDisplay(9);
+            addDisplay('9');
+            break;
+        case '0':
+            addDisplay('0');
+            break;
+        case '+':
+            doOperation('+');
+            break;
+        case '-':
+            doOperation('-');
+            break;
+        case '*':
+            doOperation('*');
+            break;
+        case '/':
+            doOperation('/');
+            break;
+        case '=':
+            doOperation('=');
+            break;
+        case 'AC':
+            clearAll();
             break;
     }
 }
 
 function addDisplay(str) {
-    calcDisplay += str;
-    displayDiv.textContent = calcDisplay;
+    if (isOpResult == false){
+        displayDiv.textContent += str;
+    }
+    else {
+        displayDiv.textContent = str;
+        isOpResult = false;
+    }
 }
 
-let calcDisplay = "";
+function doOperation(str) {
+    let tmp = parseFloat(displayDiv.textContent);
+    displayDiv.textContent = '';
+    mem = operate(prevOp, mem, tmp);
+    if (str == '=') {
+        displayDiv.textContent = Math.round(mem * 1000)/1000;
+        isOpResult = true;
+    } else {isOpResult = false}
+    prevOp = str;
+}
+
+function clearAll() {
+    isOpResult = false;
+    mem = 0;
+    prevOp = "=";
+}
+
+clearAll();
 const btns = document.querySelectorAll('button');
 const displayDiv = document.querySelector('.display')
 btns.forEach(
