@@ -94,7 +94,18 @@ function addDisplay(str) {
 
 function doOperation(str) {
     let tmp = parseFloat(displayDiv.textContent);
+    if (isNaN(tmp) == true) {
+        isOpResult = true;
+        prevOp = '=';
+        return;
+    }
     displayDiv.textContent = '';
+    if (tmp == 0 && prevOp == '/') {
+        displayDiv.textContent = "Go Fuck Yourself";
+        isOpResult = true;
+        prevOp = '=';
+        return;
+    }
     mem = operate(prevOp, mem, tmp);
     if (str == '=') {
         displayDiv.textContent = Math.round(mem * 1000)/1000;
@@ -107,9 +118,12 @@ function clearAll() {
     isOpResult = false;
     mem = 0;
     prevOp = "=";
+    displayDiv.textContent = '';
 }
 
-clearAll();
+let isOpResult = false;
+let mem = 0;
+let prevOp = "=";
 const btns = document.querySelectorAll('button');
 const displayDiv = document.querySelector('.display')
 btns.forEach(
